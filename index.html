@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Guessing Number Game</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #190d20, #8d286b);
+            color: white;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 450px;
+            padding: 40px 25px;
+            text-align: center;
+            background: #211529;
+            border: 2px solid pink;
+            border-radius: 25px;
+            box-shadow: 0 0 30px #ff80c0;
+        }
+
+        h1 {
+            color: #ffadd8;
+        }
+
+        p {
+            line-height: 1.7;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: 2px solid pink;
+            border-radius: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        button {
+            padding: 13px 25px;
+            margin: 10px 5px;
+            border: none;
+            border-radius: 25px;
+            background: #ffadd8;
+            color: #291329;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: white;
+            transform: scale(1.05);
+        }
+
+        #message {
+            color: #ffadd8;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>♡ Guessing Number Game ♡</h1>
+
+        <p>Welcome to my guessing game!</p>
+
+        <p>
+            The computer has chosen a secret number
+            between 0 and 10.
+        </p>
+
+        <p>Can you guess the correct number?</p>
+
+        <button id="startButton" onclick="startGame()">
+            Start Game
+        </button>
+
+        <div id="gameArea" class="hidden">
+
+            <input
+                type="number"
+                id="guessInput"
+                min="0"
+                max="10"
+                placeholder="Enter number 0 - 10"
+            >
+
+            <br>
+
+            <button onclick="checkGuess()">
+                Guess!
+            </button>
+
+            <p id="message">Good luck! ♡</p>
+
+        </div>
+
+        <div id="restartArea" class="hidden">
+
+            <button onclick="startGame()">
+                Play Again ♡
+            </button>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        let secretNumber;
+        let attempts = 0;
+
+        // Generate random number
+        function generateNumber() {
+            return Math.floor(Math.random() * 11);
+        }
+
+        // Start game
+        function startGame() {
+
+            secretNumber = generateNumber();
+            attempts = 0;
+
+            document.getElementById("startButton").classList.add("hidden");
+
+            document.getElementById("gameArea").classList.remove("hidden");
+
+            document.getElementById("restartArea").classList.add("hidden");
+
+            document.getElementById("guessInput").value = "";
+
+            document.getElementById("message").innerText =
+                "Guess a number between 0 and 10! ♡";
+
+        }
+
+        // Check player's answer
+        function checkGuess() {
+
+            let input = document.getElementById("guessInput");
+            let guess = Number(input.value);
+
+            if (input.value.trim() === "" ||
+                !Number.isInteger(guess) ||
+                guess < 0 || guess > 10) {
+
+                document.getElementById("message").innerText =
+                    "Please enter a number from 0 to 10!";
+
+                return;
+            }
+
+            attempts++;
+
+            if (guess === secretNumber) {
+
+                document.getElementById("message").innerText =
+                    "♡ Yeah, you guessed it! ♡ Attempts: " + attempts;
+
+                document.getElementById("gameArea").classList.add("hidden");
+
+                document.getElementById("restartArea").classList.remove("hidden");
+
+            }
+
+            else if (guess < secretNumber) {
+
+                document.getElementById("message").innerText =
+                    "Too low, try again! ♡";
+
+            }
+
+            else {
+
+                document.getElementById("message").innerText =
+                    "Too high, try again! ♡";
+
+            }
+
+            input.value = "";
+            input.focus();
+
+        }
+
+    </script>
+
+</body>
+</html>
